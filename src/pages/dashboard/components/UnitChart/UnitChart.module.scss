@@ -1,0 +1,81 @@
+.chartWrap {
+    display: flex;
+    flex-direction: column;
+    min-height: clamp(320px, 40vh, 460px);
+}
+
+.placeholder {
+    padding: 80px 16px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 18px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+}
+
+.unitTitle {
+    color: var(--colorText);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.legend {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.legendItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--colorText);
+    font-size: 14px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.lineBox {
+    height: var(--chart-h-line);
+}
+
+.barBox {
+    height: var(--chart-h-bar);
+    margin-top: 4px;
+}
+
+.tooltip {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+.tooltipTitle {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.tooltipRow {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--colorText);
+    font-size: 14px;
+    padding: 2px 0;
+}

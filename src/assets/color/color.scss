@@ -1,0 +1,69 @@
+:root {
+  /* Базовые */
+  --primary-color: #252423; /* фон страницы */
+  --colorText: #e8e8e8;
+  --primary-colorBar: #31646e;
+
+  /* Поверхности */
+  --surface: #232323;
+  --surface-2: #2b2b2b;
+  --surface-3: #333333;
+  --row-group: #303030;
+  --row-unit: #1f1f1f;
+  --border: #3a3a3a;
+  --border-soft: #2c2c2c;
+
+  /* Текст */
+  --text-strong: #ffffff;
+  --text-muted: #9a9a9a;
+  --text-dim: #6f6f6f;
+
+  /* Колонка MAX (зелёная) */
+  --max-bg: #6f9d79;
+  --max-bg-strong: #4f8a5f;
+  --max-text: #f3fff5;
+
+  /* Статусы значений */
+  --status-warn: #e0a14a;
+  --status-danger: #e0726a;
+
+  /* График */
+  --chart-max: #e0564a;
+  --chart-plan: #5b8def;
+  --chart-fact: #f2f2f2;
+  --chart-expected: #e0a14a;
+  --chart-grid: #3a3a3a;
+  --bar-pos: #5a8f63;
+  --bar-neg: #b3564e;
+
+  /* Скроллбар */
+  --scroll-thumb: #3d3d3d;
+  --scroll-thumb-hover: #555555;
+  --scroll-track: transparent;
+
+  /* ---- Резиновые размеры (адаптив 1366px → 4K, с учётом масштаба ОС) ---- */
+  /* Формулы подобраны так, чтобы на 2560/3840 CSS-px было КРУПНЕЕ прежних потолков */
+
+  /* Отступы и сетка */
+  --page-pad-x: clamp(20px, 2.2vw, 88px);
+  --page-pad-y: clamp(16px, 1.3vw, 48px);
+  --gap: clamp(20px, 1.8vw, 56px);
+
+  /* Колонки таблицы */
+  --name-w: clamp(240px, 13vw + 30px, 580px);
+  --name-w-fit: clamp(170px, 12vw, 300px);
+  --max-w: clamp(90px, 4vw + 16px, 190px);
+  --day-w: clamp(80px, 4.5vw + 8px, 180px);
+
+  /* Типографика */
+  --fs-title: clamp(24px, 1.2vw + 8px, 54px);
+  --fs-title-unit: clamp(12px, 0.35vw + 6px, 24px);
+  --fs-tab: clamp(16px, 0.65vw + 7px, 32px);
+  --fs-table: clamp(14px, 0.62vw + 5.5px, 30px);
+  --fs-events: clamp(15px, 0.5vw + 7px, 26px);
+  --fs-empty: clamp(20px, 0.8vw + 9px, 40px);
+
+  /* График */
+  --chart-h-line: clamp(240px, 30vh, 560px);
+  --chart-h-bar: clamp(110px, 14vh, 220px);
+}

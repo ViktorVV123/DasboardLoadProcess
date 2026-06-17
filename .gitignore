@@ -1,0 +1,25 @@
+# deps
+node_modules/
+
+# build
+dist/
+build/
+.cache/
+
+# env
+.env
+.env.*
+!.env.example
+
+# логи
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# ос / редактор
+.DS_Store
+.idea/
+.vscode/
+
+# прочее
+*.tsbuildinfo
