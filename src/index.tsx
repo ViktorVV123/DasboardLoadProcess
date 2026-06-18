@@ -11,12 +11,16 @@ if (!root) {
     throw new Error('root not found');
 }
 
-const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <App />,
-        children: [{ index: true, element: <Dashboard /> }],
-    },
-]);
+const router = createBrowserRouter(
+    [
+        {
+            path: '/',
+            element: <App />,
+            children: [{ index: true, element: <Dashboard /> }],
+        },
+    ],
+    // в проде приложение живёт под /cdu-portal/, в dev — от корня
+    { basename: __ENV__ === 'production' ? '/cdu-portal' : '/' },
+);
 
 createRoot(root).render(<RouterProvider router={router} />);
