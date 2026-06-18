@@ -8,7 +8,7 @@
 
 .body {
     display: grid;
-    grid-template-columns: minmax(0, 1.55fr) minmax(clamp(340px, 26vw, 560px), 1fr);
+    grid-template-columns: minmax(0, 1.9fr) minmax(clamp(300px, 23vw, 560px), 1fr);
     gap: var(--gap);
     padding: var(--page-pad-y) var(--page-pad-x) calc(var(--page-pad-y) * 1.6);
     align-items: start;
@@ -34,10 +34,10 @@
 }
 
 .chartBox {
-    min-height: clamp(320px, 40vh, 460px);
+    min-height: clamp(280px, 36vh, 460px);
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 1024px) {
     .body {
         grid-template-columns: 1fr;
     }

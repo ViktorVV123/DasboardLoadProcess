@@ -50,16 +50,16 @@
   --gap: clamp(20px, 1.8vw, 56px);
 
   /* Колонки таблицы */
-  --name-w: clamp(240px, 13vw + 30px, 580px);
+  --name-w: clamp(200px, 12vw + 20px, 560px);
   --name-w-fit: clamp(170px, 12vw, 300px);
-  --max-w: clamp(90px, 4vw + 16px, 190px);
-  --day-w: clamp(80px, 4.5vw + 8px, 180px);
+  --max-w: clamp(78px, 3.4vw + 12px, 170px);
+  --day-w: clamp(54px, 2.4vw + 10px, 110px);
 
   /* Типографика */
   --fs-title: clamp(24px, 1.2vw + 8px, 54px);
   --fs-title-unit: clamp(12px, 0.35vw + 6px, 24px);
   --fs-tab: clamp(16px, 0.65vw + 7px, 32px);
-  --fs-table: clamp(14px, 0.62vw + 5.5px, 30px);
+  --fs-table: clamp(13px, 0.55vw + 5px, 28px);
   --fs-events: clamp(15px, 0.5vw + 7px, 26px);
   --fs-empty: clamp(20px, 0.8vw + 9px, 40px);
 

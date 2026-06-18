@@ -34,7 +34,7 @@
     background: var(--surface);
     color: var(--text-muted);
     font-weight: 500;
-    padding: clamp(12px, 0.7vw + 3px, 28px) clamp(8px, 0.6vw + 3px, 22px);
+    padding: clamp(10px, 0.6vw + 2px, 22px) clamp(6px, 0.4vw + 2px, 14px);
     text-align: right;
     white-space: nowrap;
     border-bottom: 1px solid var(--border);
@@ -116,7 +116,7 @@
 
 /* ---- Ячейки ---- */
 .td {
-    padding: clamp(11px, 0.65vw + 3px, 26px) clamp(8px, 0.6vw + 3px, 20px);
+    padding: clamp(9px, 0.55vw + 2px, 22px) clamp(6px, 0.4vw + 2px, 13px);
     text-align: right;
     white-space: nowrap;
     border-bottom: 1px solid var(--border-soft);

@@ -75,7 +75,7 @@ export const Dashboard: React.FC = () => {
                             <EventsPanel events={events} unitName={selectedUnit?.name} />
                         </div>
                         <div className={s.chartBox}>
-                            <UnitChart unit={selectedUnit} />
+                            <UnitChart unit={selectedUnit} month={month} />
                         </div>
                     </div>
                 )}

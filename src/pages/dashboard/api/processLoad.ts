@@ -5,7 +5,9 @@ import {PlantCode, ProcessGroup, ProcessUnit} from "@/pages/dashboard/model/type
 
 const API_BASE: string =
     (typeof window !== 'undefined' && (window as any).__API_BASE__) ||
-    'http://localhost:4000/api';
+    // прод: тот же origin под /cdu-portal/api (nginx срежет префикс → бэк на 3011).
+    // dev: бэк локально на 3011 без префикса (CORS уже пускает localhost).
+    (__ENV__ === 'production' ? '/cdu-portal/api' : 'http://localhost:4000');
 
 // ─── Форма ответа бэка ───────────────────────────────────────────────
 export interface ApiDayPoint {
@@ -53,7 +55,9 @@ export async function fetchProcessLoad(
     apiMonth: string,
     plant?: string,
 ): Promise<ApiProcessLoad> {
-    const url = new URL(`${API_BASE}/process-load`);
+    // base нужен на случай относительного API_BASE (прод: '/cdu-portal/api') —
+    // без него new URL() бросает TypeError. Для абсолютного API_BASE (dev) base игнорируется.
+    const url = new URL(`${API_BASE}/process-load`, window.location.origin);
     url.searchParams.set('month', apiMonth);
     if (plant) url.searchParams.set('plant', plant);
     const res = await fetch(url.toString());

@@ -19,12 +19,14 @@ import {buildChartData, fmt} from "@/pages/dashboard/model/utils";
 
 interface UnitChartProps {
     unit: ProcessUnit | null;
+    month?: string;
 }
 
 const cssVar = (name: string) =>
     getComputedStyle(document.documentElement).getPropertyValue(name).trim() || undefined;
 
-const dayTick = (d: number) => `май ${String(d).padStart(2, '0')}`;
+const fmtDay = (monthName: string, d: number) =>
+    `${monthName} ${String(d).padStart(2, '0')}`.trim();
 
 const LegendDot: React.FC<{ color: string; label: string }> = ({ color, label }) => (
     <span className={s.legendItem}>
@@ -33,11 +35,11 @@ const LegendDot: React.FC<{ color: string; label: string }> = ({ color, label })
     </span>
 );
 
-const TooltipBox: React.FC<any> = ({ active, payload, label }) => {
+const TooltipBox: React.FC<any> = ({ active, payload, label, monthName }) => {
     if (!active || !payload || !payload.length) return null;
     return (
         <div className={s.tooltip}>
-            <div className={s.tooltipTitle}>{dayTick(label)}</div>
+            <div className={s.tooltipTitle}>{fmtDay(monthName ?? '', label)}</div>
             {payload
                 .filter((p: any) => p.value !== null && p.value !== undefined)
                 .map((p: any) => (
@@ -50,8 +52,11 @@ const TooltipBox: React.FC<any> = ({ active, payload, label }) => {
     );
 };
 
-export const UnitChart: React.FC<UnitChartProps> = ({ unit }) => {
+export const UnitChart: React.FC<UnitChartProps> = ({ unit, month }) => {
     const data = useMemo(() => (unit ? buildChartData(unit) : []), [unit]);
+
+    // имя месяца для подписей оси/тултипа: «Июнь-2026» -> «июнь»
+    const monthName = (month ?? '').split('-')[0].trim().toLowerCase();
 
     // последний день с реальным фактом — граница «факт → ожидаемый»
     const lastFactDay = useMemo(() => {
@@ -104,7 +109,7 @@ export const UnitChart: React.FC<UnitChartProps> = ({ unit }) => {
                         <XAxis
                             dataKey="day"
                             ticks={ticks}
-                            tickFormatter={dayTick}
+                            tickFormatter={(d) => fmtDay(monthName, d)}
                             tick={{ fill: c.muted, fontSize: 13 }}
                             axisLine={{ stroke: c.grid }}
                             tickLine={false}
@@ -117,7 +122,7 @@ export const UnitChart: React.FC<UnitChartProps> = ({ unit }) => {
                             tickLine={false}
                             width={56}
                         />
-                        <Tooltip content={<TooltipBox />} />
+                        <Tooltip content={<TooltipBox monthName={monthName} />} />
                         <Line
                             type="monotone"
                             dataKey="max"
@@ -181,7 +186,7 @@ export const UnitChart: React.FC<UnitChartProps> = ({ unit }) => {
                             width={64}
                         />
                         <ReferenceLine y={0} stroke={c.grid} />
-                        <Tooltip content={<TooltipBox />} cursor={{ fill: 'rgba(255,255,255,0.04)' }} />
+                        <Tooltip content={<TooltipBox monthName={monthName} />} cursor={{ fill: 'rgba(255,255,255,0.04)' }} />
                         <Bar dataKey="deviation" name="Отклонение" radius={[2, 2, 0, 0]}>
                             {data.map((d, i) => (
                                 <Cell key={i} fill={d.deviation >= 0 ? c.barPos : c.barNeg} />
