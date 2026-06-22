@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import * as s from './ProcessTable.module.scss';
 import {ProcessGroup, ProcessUnit} from "@/pages/dashboard/model/types";
 import {DAYS_IN_MONTH} from "@/pages/dashboard/model/data";
@@ -11,6 +11,8 @@ interface ProcessTableProps {
     /** Режим «обзор всего месяца» — таблица влезает целиком, без горизонтального скролла */
     fitAll: boolean;
     onToggleFitAll: () => void;
+    /** День, к которому проскроллить таблицу (текущее число для текущего месяца); null — не скроллить */
+    scrollToDay?: number | null;
 }
 
 const statusClass = (st: string) =>
@@ -22,8 +24,32 @@ export const ProcessTable: React.FC<ProcessTableProps> = ({
                                                               onSelectUnit,
                                                               fitAll,
                                                               onToggleFitAll,
+                                                              scrollToDay,
                                                           }) => {
     const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    // сигнатура данных: меняется при смене завода/месяца, но стабильна между ре-рендерами
+    const dataKey = groups.map((g) => g.id).join('|');
+
+    // автоскролл к текущему дню (для текущего месяца), чтобы не листать руками
+    useEffect(() => {
+        if (fitAll || scrollToDay == null) return;
+        const scroll = scrollRef.current;
+        if (!scroll) return;
+        const id = requestAnimationFrame(() => {
+            const todayTh = scroll.querySelector(
+                `th[data-day="${scrollToDay}"]`,
+            ) as HTMLElement | null;
+            const maxTh = scroll.querySelector('th[data-maxhead]') as HTMLElement | null;
+            if (!todayTh || !maxTh) return;
+            const frozen = maxTh.offsetLeft + maxTh.offsetWidth; // ширина «Установка» + MAX
+            const dayW = todayTh.offsetWidth || 1;
+            // сегодня видно с парой дней контекста слева
+            scroll.scrollLeft = Math.max(0, todayTh.offsetLeft - frozen - 2 * dayW);
+        });
+        return () => cancelAnimationFrame(id);
+    }, [dataKey, scrollToDay, fitAll]);
 
     const toggle = (id: string) =>
         setCollapsed((prev) => {
@@ -44,7 +70,7 @@ export const ProcessTable: React.FC<ProcessTableProps> = ({
     const DAYS = Array.from({ length: dayCount }, (_, i) => i + 1);
 
     return (
-        <div className={`${s.scroll} ${fitAll ? s.scrollFit : ''}`}>
+        <div ref={scrollRef} className={`${s.scroll} ${fitAll ? s.scrollFit : ''}`}>
             <table className={`${s.table} ${fitAll ? s.fit : ''}`}>
                 <thead>
                 <tr>
@@ -61,9 +87,9 @@ export const ProcessTable: React.FC<ProcessTableProps> = ({
                             </button>
                         </div>
                     </th>
-                    <th className={`${s.th} ${s.maxCol} ${s.stickyMax} ${s.maxHead}`}>MAX</th>
+                    <th data-maxhead className={`${s.th} ${s.maxCol} ${s.stickyMax} ${s.maxHead}`}>MAX</th>
                     {DAYS.map((d) => (
-                        <th key={d} className={`${s.th} ${s.dayCol}`}>
+                        <th key={d} data-day={d} className={`${s.th} ${s.dayCol}`}>
                             {d}
                         </th>
                     ))}
@@ -100,7 +126,7 @@ export const ProcessTable: React.FC<ProcessTableProps> = ({
                                     return (
                                         <td
                                             key={d}
-                                            className={`${s.td} ${s.dayCol} ${s.groupVal} ${statusClass(
+                                            className={`${s.td} ${s.dayCol} ${s.groupVal} ${(scrollToDay ?? 0) > d ? s.pastDay : ''} ${statusClass(
                                                 cellStatus(
                                                     groupExpectedDay(g, d - 1),
                                                     groupPlanDay(g, d - 1),
@@ -137,7 +163,7 @@ export const ProcessTable: React.FC<ProcessTableProps> = ({
                                                 return (
                                                     <td
                                                         key={d}
-                                                        className={`${s.td} ${s.dayCol} ${statusClass(
+                                                        className={`${s.td} ${s.dayCol} ${(scrollToDay ?? 0) > d ? s.pastDay : ''} ${statusClass(
                                                             cellStatus(exp, pl, u.max),
                                                         )}`}
                                                     >

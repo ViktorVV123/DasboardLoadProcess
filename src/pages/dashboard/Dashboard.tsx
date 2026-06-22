@@ -54,6 +54,7 @@ export const Dashboard: React.FC = () => {
                             onSelectUnit={setSelectedUnit}
                             fitAll={fitAll}
                             onToggleFitAll={() => setFitAll((v) => !v)}
+                            scrollToDay={month === MONTHS[0] ? new Date().getDate() : null}
                         />
                     )}
                     {error && (
